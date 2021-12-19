@@ -11,7 +11,7 @@ steps:
     touch ${failure_file}
 
     # Loop through the builders, and build independently.
-    for d in terraform/ helm/ yq/; do
+    for d in terraform/ helm/; do
       readme="${d}README.md"
       if [[ ! -f "${readme}" ]]; then
         # Note the error but try to build anyway.
