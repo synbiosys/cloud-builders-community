@@ -42,6 +42,7 @@ steps:
   
 - id: 'Build AWS Image'
   name: 'gcr.io/cloud-builders/docker'
+  dir: 'terraform/'
   env:
   - 'TERRAFORM_VERSION=${_TERRAFORM_VERSION}'
   - 'TERRAFORM_VERSION_SHA256SUM=${_TERRAFORM_VERSION_SHA256SUM}'
