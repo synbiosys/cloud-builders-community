@@ -1,0 +1,20 @@
+FROM alpine:3.12 AS build
+
+ARG TERRAFORM_VERSION
+ARG TERRAFORM_VERSION_SHA256SUM
+
+
+COPY terraform_${TERRAFORM_VERSION}_linux_amd64.zip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+RUN echo "${TERRAFORM_VERSION_SHA256SUM}  terraform_${TERRAFORM_VERSION}_linux_amd64.zip" > checksum && sha256sum -c checksum
+RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+
+
+FROM amazon/aws-cli:2.6.4 as terra-aws
+
+#ENV AWS_ACCESS_KEY_ID
+#ENV AWS_SECRET_ACCESS_KEY
+#ENV AWS_DEFAULT_REGION
+
+COPY --from=build terraform /usr/bin/terraform
+#COPY entrypoint.bash /builder/entrypoint.bash
+ENTRYPOINT ["terraform"]
